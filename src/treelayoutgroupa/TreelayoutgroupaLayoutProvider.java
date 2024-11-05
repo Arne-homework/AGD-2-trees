@@ -62,8 +62,9 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         switch(currentAlgorithm) {
             case LEFTY:
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
-                Lefty leftyInstance = new Lefty(layoutGraph);
-                leftyInstance.lefty(nodes, maxHeight);
+                System.out.println("LayoutGraph before lefty: " + layoutGraph.toString());
+                Lefty leftyInstance = new Lefty();
+                leftyInstance.lefty(layoutGraph, nodes, maxHeight, padding, nodePlacingMonitor);
                 
             case INORDER:
                 // TODO: Do something here!
