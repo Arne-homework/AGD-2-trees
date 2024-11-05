@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: layout.tree.groupa
-Bundle-SymbolicName: layout.tree.groupa
+Bundle-Name: Treelayoutgroupa
+Bundle-SymbolicName: treelayoutgroupa
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: groupA
-Automatic-Module-Name: layout.tree.groupa
+Require-Bundle: org.eclipse.elk.core,
+ org.eclipse.elk.graph,
+ org.eclipse.elk.alg.common,
+ com.google.guava
+Automatic-Module-Name: treelayoutgroupa
 Bundle-RequiredExecutionEnvironment: JavaSE-17
