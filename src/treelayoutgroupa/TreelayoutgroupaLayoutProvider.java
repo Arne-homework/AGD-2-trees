@@ -26,12 +26,13 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         progressMonitor.begin("Treelayoutgroupa", 2);
         progressMonitor.log("Algorithm began");
                 
-        // Retrieve several properties
+        // Retrieve several properties like padding and spacing
         ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
         
         double edgeEdgeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_EDGE);
         double edgeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_NODE);
         double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
+        double maxHeight = layoutGraph.getHeight();
         
         // Get and possibly reverse the list of nodes to lay out
         List<ElkNode> nodes = new ArrayList<>(layoutGraph.getChildren());
@@ -51,14 +52,19 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         nodePlacingMonitor.log("currX: " + currX);
         nodePlacingMonitor.logGraph(layoutGraph, "No node placed yet");
         
-        // TODO: Implement lefty and in-order in here!
-        AlgorithmTypes currentAlgorithm = AlgorithmTypes.lefty;
+        /**
+         * Contains the algorithm which shall be used.
+         * Set the wanted algorithm here!
+         */
+        AlgorithmTypes currentAlgorithm = AlgorithmTypes.LEFTY;
         
+        // Checks, which algorithm is selected and uses that one.
         switch(currentAlgorithm) {
-            case lefty:
-                Lefty leftyInstance = new Lefty(layoutGraph, progressMonitor);
-                leftyInstance.lefty(nodes, padding, currX, currY, nodeNodeSpacing, nodePlacingMonitor);
-            case inorder:
+            case LEFTY:
+                Lefty leftyInstance = new Lefty(layoutGraph, progressMonitor, nodePlacingMonitor);
+                leftyInstance.lefty(nodes, padding, currX, currY, nodeNodeSpacing, maxHeight);
+                
+            case INORDER:
                 // TODO: Do something here!
         
         }

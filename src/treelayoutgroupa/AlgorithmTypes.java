@@ -1,6 +1,9 @@
 package treelayoutgroupa;
 
+/**
+ * This enum contains all possible algorithms to iterate over.
+ */
 public enum AlgorithmTypes {
-    lefty,
-    inorder
+    LEFTY,
+    INORDER
 }
