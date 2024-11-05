@@ -61,8 +61,9 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         // Checks, which algorithm is selected and uses that one.
         switch(currentAlgorithm) {
             case LEFTY:
-                Lefty leftyInstance = new Lefty(layoutGraph, progressMonitor, nodePlacingMonitor);
-                leftyInstance.lefty(nodes, padding, currX, currY, nodeNodeSpacing, maxHeight);
+                nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
+                Lefty leftyInstance = new Lefty(layoutGraph);
+                leftyInstance.lefty(nodes, maxHeight);
                 
             case INORDER:
                 // TODO: Do something here!
