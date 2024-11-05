@@ -34,20 +34,14 @@ public class Lefty {
         
         // Let's set the status of each node to false.
         for (ElkNode n : nodes) {
-            System.out.println("Fill status for " + n);
             status.put(n, 0);
         }
-        
-        System.out.println("Starting lefty.");
-        System.out.println("Current: " + current);
         
         // The actual implementation based on Algorithm 1 in [Wetherell, Shannon 1979]
         while (current != null) {
             if (status.get(current) == 0) {
                 // The current node has not been visited yet.
                 nodePlacingMonitor.log("currX: " + nextX[(int) current.getHeight()]);
-                
-                System.out.println("Yeah we are in the algorithm.");
                 
                 // Set the node on the next possible x position from the array.
                 current.setX(nextX[(int) current.getHeight()]);
