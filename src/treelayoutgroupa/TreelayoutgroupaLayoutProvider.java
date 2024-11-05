@@ -51,6 +51,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         nodePlacingMonitor.log("currX: " + currX);
         nodePlacingMonitor.logGraph(layoutGraph, "No node placed yet");
         
+        // TODO: Implement lefty and in-order in here!
         for (ElkNode node : nodes) {
             // Set the node's coordinates
             node.setX(currX);
