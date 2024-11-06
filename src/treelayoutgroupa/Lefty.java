@@ -4,9 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.text.AsyncBoxView.ChildLocator;
+
 import org.eclipse.elk.core.math.ElkPadding;
 import org.eclipse.elk.core.util.IElkProgressMonitor;
+import org.eclipse.elk.graph.ElkEdge;
 import org.eclipse.elk.graph.ElkNode;
+import org.eclipse.elk.graph.util.ElkGraphUtil;
 import org.eclipse.emf.common.util.EList;
 
 public class Lefty {
@@ -54,27 +58,33 @@ public class Lefty {
                 status.put(current, 1);
                 nodePlacingMonitor.logGraph(layoutGraph, current.getIdentifier() + " placed"); 
                 
-            } else if (1 <= status.get(current) && status.get(current) <= current.getChildren().size()) {
-                // TODO: For some reason there are no children!
+            } else if (1 <= status.get(current) && status.get(current) <= current.getOutgoingEdges().size()) {
+                // Hint: getChildren() is not used in a layered graph.
                 // The node has already been visited and there are still children to visit.
                 
                 status.put(current, status.get(current)+1);
                 
                 // Check for the next not visited child.
                 // There has to be at least one, because #children >= 1.
-                EList<ElkNode> children = current.getChildren();
-                for (ElkNode child : children) {
-                    if (status.get(child) == status.get(current) -1) {
+                EList<ElkEdge> outgoingEdges = current.getOutgoingEdges();
+                for (ElkEdge elkEdge : outgoingEdges) {
+                    // (current -> child) => The child is the target of the outgoing edge. We only have 2-uniform hypergraph (each edge connects exactly 2 nodes)
+                    ElkNode child = ElkGraphUtil.connectableShapeToNode(elkEdge.getTargets().get(0));
+                    // TODO: This is different to the algorithm mentioned in [Wetherell, Shannon 1979]! Could an error occur here?
+                    if (status.get(child) == 0) {
                         current = child;
                         break;
                     }
                 }
                 
-                
             } else {
                 // The node has already been visited more often than children it has.
                 // current.status > current.#_of_children
-                current = current.getParent();
+                // We backtrack to the parent node.
+                // Hopefully there is at most one incomming edge.
+                ElkEdge incommingEdge = current.getIncomingEdges().get(0);
+                // (parent -> current) => The parent is the source of the incomming edge.
+                current = ElkGraphUtil.connectableShapeToNode(incommingEdge.getSources().get(0));
                 // Assuming the parent of the root is null.
             }
         }
