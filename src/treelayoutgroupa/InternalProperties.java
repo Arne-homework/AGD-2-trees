@@ -11,7 +11,7 @@ public class InternalProperties {
      * The maximum height of the tree.
      */
     public static final IProperty<Integer> MAX_HEIGHT = new Property<Integer>("maxHeight",
-            0,
+            0, // Default value
             0, // Lower bound
             null); // Upper bound
     
@@ -19,7 +19,8 @@ public class InternalProperties {
      * The level of the current Node.
      */
     public static final IProperty<Integer> NODE_LEVEL = new Property<Integer>("nodeLevel",
-            0,
+            0, // Default value
             0, // Lower bound
             null); // Upper bound
+    
 }

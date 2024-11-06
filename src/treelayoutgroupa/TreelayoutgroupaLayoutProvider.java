@@ -101,13 +101,13 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
                         source.getY() + source.getHeight());
                 section.setEndLocation(
                         target.getX() + target.getWidth() / 2,
-                        target.getY() + target.getHeight());
+                        target.getY());
                 
-                ElkGraphUtil.createBendPoint(section, section.getStartX(), currY);
-                ElkGraphUtil.createBendPoint(section, section.getEndX(), currY);
+                ElkGraphUtil.createBendPoint(section, section.getStartX(), section.getStartY());
+                ElkGraphUtil.createBendPoint(section, section.getEndX(), section.getEndY());
                                 
                 currY += edgeEdgeSpacing;
-                edgeRoutingMonitor.log("currY: " + currY);
+                edgeRoutingMonitor.log("currY: " + section.getStartY());
                 edgeRoutingMonitor.logGraph(layoutGraph, source.getIdentifier() + " -> " + target.getIdentifier());
             }
             
