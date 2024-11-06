@@ -21,11 +21,10 @@ public class Lefty {
 
     /**
      * The actual Lefty implementation.
-     * TODO: Complete comment!
      * 
-     * @param layoutGraph
-     * @param nodes
-     * @param nodePlacingMonitor
+     * @param layoutGraph The current graph.
+     * @param nodes A list of all nodes in the graph.
+     * @param nodePlacingMonitor A monitor for placing the nodes.
      */
     public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor) {
         // Retrieving the padding to reduce the number of necessary arguments.
@@ -36,7 +35,7 @@ public class Lefty {
         
         // Declare and initialize necessary variables for the algorithm.
         // Array containing the next possible positions on the x-coordinate.
-        int[] nextX = new int[maxHeight];
+        int[] nextX = new int[maxHeight+1];
         // The current node, we want to start with the root.
         ElkNode current = nodes.get(0);
         // Map containing the (visited) status of each node.
