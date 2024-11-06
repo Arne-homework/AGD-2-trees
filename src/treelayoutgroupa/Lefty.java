@@ -7,11 +7,14 @@ import java.util.List;
 import javax.swing.text.AsyncBoxView.ChildLocator;
 
 import org.eclipse.elk.core.math.ElkPadding;
+import org.eclipse.elk.core.options.CoreOptions;
 import org.eclipse.elk.core.util.IElkProgressMonitor;
 import org.eclipse.elk.graph.ElkEdge;
 import org.eclipse.elk.graph.ElkNode;
 import org.eclipse.elk.graph.util.ElkGraphUtil;
 import org.eclipse.emf.common.util.EList;
+
+import treelayoutgroupa.options.TreelayoutgroupaOptions;
 
 public class Lefty {
   
@@ -20,14 +23,20 @@ public class Lefty {
      * The actual Lefty implementation.
      * TODO: Complete comment!
      * 
+     * @param layoutGraph
      * @param nodes
-     * @param maxHeight
+     * @param nodePlacingMonitor
      */
-    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, double maxHeight, ElkPadding padding, IElkProgressMonitor nodePlacingMonitor) {
+    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor) {
+        // Retrieving the padding to reduce the number of necessary arguments.
+        ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
+        // Also retrieving the max height of the given tree.
+        int maxHeight = layoutGraph.getProperty(InternalProperties.MAX_HEIGHT);
+        
         
         // Declare and initialize necessary variables for the algorithm.
         // Array containing the next possible positions on the x-coordinate.
-        int[] nextX = new int[(int) maxHeight + 1];
+        int[] nextX = new int[maxHeight];
         // The current node, we want to start with the root.
         ElkNode current = nodes.get(0);
         // Map containing the (visited) status of each node.
@@ -45,14 +54,15 @@ public class Lefty {
         while (current != null) {
             if (status.get(current) == 0) {
                 // The current node has not been visited yet.
-                nodePlacingMonitor.log("currX: " + nextX[(int) current.getHeight()]);
+                int currentLevel = current.getProperty(InternalProperties.NODE_LEVEL);
+                nodePlacingMonitor.log("currX: " + nextX[currentLevel]);
                 
                 // Set the node on the next possible x position from the array.
-                current.setX(nextX[(int) current.getHeight()]);
+                current.setX(nextX[currentLevel]);
                 // Use a multiple of the nodes height as y position.
-                current.setY(padding.top + current.getHeight());
+                current.setY(currentLevel * (padding.top + current.getHeight()));
                 // Adjust the next possible x position accordingly to the algorithm rules.
-                nextX[(int) current.getHeight()] += current.getWidth() +2;
+                nextX[currentLevel] += current.getWidth() +2;
                 
                 // Mark the current node as visited.
                 status.put(current, 1);

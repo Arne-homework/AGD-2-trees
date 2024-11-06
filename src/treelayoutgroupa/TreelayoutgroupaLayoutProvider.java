@@ -2,7 +2,10 @@ package treelayoutgroupa;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.eclipse.elk.core.AbstractLayoutProvider;
 import org.eclipse.elk.core.math.ElkPadding;
@@ -11,6 +14,7 @@ import org.eclipse.elk.graph.ElkEdge;
 import org.eclipse.elk.graph.ElkEdgeSection;
 import org.eclipse.elk.graph.ElkNode;
 import org.eclipse.elk.graph.util.ElkGraphUtil;
+import org.eclipse.emf.common.util.EList;
 
 import treelayoutgroupa.options.TreelayoutgroupaOptions;
 
@@ -31,8 +35,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         
         double edgeEdgeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_EDGE);
         double edgeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_NODE);
-        double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
-        double maxHeight = layoutGraph.getHeight();
+        //double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
         
         // Get and possibly reverse the list of nodes to lay out
         List<ElkNode> nodes = new ArrayList<>(layoutGraph.getChildren());
@@ -49,7 +52,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         double currY = padding.top;
         
         // Make an output to the debug log
-        nodePlacingMonitor.log("currX: " + currX);
+        //nodePlacingMonitor.log("currX: " + currX);
         nodePlacingMonitor.logGraph(layoutGraph, "No node placed yet");
         
         /**
@@ -58,13 +61,15 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
          */
         AlgorithmTypes currentAlgorithm = AlgorithmTypes.LEFTY;
         
+        // Calculating the level of each node and the max height.
+        calculateLevels(layoutGraph, nodes);
+        
         // Checks, which algorithm is selected and uses that one.
         switch(currentAlgorithm) {
             case LEFTY:
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
-                System.out.println("LayoutGraph before lefty: " + layoutGraph.toString());
                 Lefty leftyInstance = new Lefty();
-                leftyInstance.lefty(layoutGraph, nodes, maxHeight, padding, nodePlacingMonitor);
+                leftyInstance.lefty(layoutGraph, nodes, nodePlacingMonitor);
                 
             case INORDER:
                 // TODO: Do something here!
@@ -122,5 +127,39 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         progressMonitor.log("Algorithm executed");
         progressMonitor.logGraph(layoutGraph, "Final graph");
         progressMonitor.done();
+    }
+    
+    /**
+     * Calculate the node levels and max height.
+     * 
+     * @param layoutGraph The current graph.
+     * @param nodes A list of all nodes in the graph.
+     */
+    private void calculateLevels(ElkNode layoutGraph, List<ElkNode> nodes) {
+        // The maximal height.
+        int maxLevel = 0;
+        
+        // Let's use a BFS to calculate the height of every node.
+        // Nodes is already some kind of sorted queue (adjacent list). We just need to visit every node once.
+        for (ElkNode node : nodes) {
+            // Get the parent node. If there is none, our node is the root.
+            EList<ElkEdge> incommingEdges = node.getIncomingEdges();
+            if (!incommingEdges.isEmpty()) {
+                // node is an internal node or leaf.
+                // Let's get the parent node and set our level to one above.
+                ElkEdge incommingEdge = incommingEdges.get(0);
+                ElkNode parent = ElkGraphUtil.connectableShapeToNode(incommingEdge.getSources().get(0));
+                int newLevel = parent.getProperty(InternalProperties.NODE_LEVEL) + 1;
+                node.setProperty(InternalProperties.NODE_LEVEL, newLevel);
+                
+                // Are we on a new level?
+                if (newLevel > maxLevel) {
+                    maxLevel = newLevel;
+                }
+            }
+            // Else: node == root
+        }
+        // At the end let's set the MAX_HEIGHT.
+        layoutGraph.setProperty(InternalProperties.MAX_HEIGHT, maxLevel);
     }
 }
