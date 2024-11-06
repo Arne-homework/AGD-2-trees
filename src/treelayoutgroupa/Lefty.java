@@ -71,7 +71,8 @@ public class Lefty {
                     // (current -> child) => The child is the target of the outgoing edge. We only have 2-uniform hypergraph (each edge connects exactly 2 nodes)
                     ElkNode child = ElkGraphUtil.connectableShapeToNode(elkEdge.getTargets().get(0));
                     // TODO: This is different to the algorithm mentioned in [Wetherell, Shannon 1979]! Could an error occur here?
-                    if (status.get(child) == 0) {
+                    if (status.get(child) == 0 || status.get(child) == status.get(current)-1) {
+                        // This child has either not been visited or needs to be re-positioned.
                         current = child;
                         break;
                     }
@@ -82,10 +83,19 @@ public class Lefty {
                 // current.status > current.#_of_children
                 // We backtrack to the parent node.
                 // Hopefully there is at most one incomming edge.
-                ElkEdge incommingEdge = current.getIncomingEdges().get(0);
-                // (parent -> current) => The parent is the source of the incomming edge.
-                current = ElkGraphUtil.connectableShapeToNode(incommingEdge.getSources().get(0));
-                // Assuming the parent of the root is null.
+                EList<ElkEdge> incommingEdges = current.getIncomingEdges();
+                
+                // We only have to go on, if there are still children.
+                if (!incommingEdges.isEmpty()) {
+                    ElkEdge incommingEdge = incommingEdges.get(0);
+                    // (parent -> current) => The parent is the source of the incomming edge.
+                    if (incommingEdge != null) {
+                        current = ElkGraphUtil.connectableShapeToNode(incommingEdge.getSources().get(0));
+                    }
+                } else {
+                    // Assuming the parent of the root is null.
+                    current = null;
+                }
             }
         }
     }
