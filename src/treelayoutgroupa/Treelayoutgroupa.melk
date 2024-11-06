@@ -17,6 +17,14 @@ option reverseInput : boolean {
     targets parents
 }
 
+option usedStrategy : AlgorithmTypes {
+    label "Used strategy"
+    description
+        "The currently used strategy. Take a look at the enum for more information."
+    default = AlgorithmTypes.LEFTY
+    targets parents
+}
+
 algorithm Treelayoutgroupa(TreelayoutgroupaLayoutProvider) {
     label "Treelayoutgroupa"
     description "Please insert a short but informative description here"

@@ -7,6 +7,8 @@ import org.eclipse.elk.core.math.ElkPadding;
 import org.eclipse.elk.core.options.CoreOptions;
 import org.eclipse.elk.graph.properties.IProperty;
 import org.eclipse.elk.graph.properties.Property;
+
+import treelayoutgroupa.AlgorithmTypes;
 import treelayoutgroupa.TreelayoutgroupaLayoutProvider;
 import treelayoutgroupa.TreelayoutgroupaMetadataProvider;
 
@@ -22,6 +24,11 @@ public class TreelayoutgroupaOptions implements ILayoutMetaDataProvider {
    * appearance in the graph.
    */
   public static final IProperty<Boolean> REVERSE_INPUT = TreelayoutgroupaMetadataProvider.REVERSE_INPUT;
+  
+  /**
+   * The currently used strategy. Take a look at the enum for more information.
+   */
+  public static final IProperty<AlgorithmTypes> USED_STRATEGY = TreelayoutgroupaMetadataProvider.USED_STRATEGY;
 
   /**
    * Default value for {@link #PADDING} with algorithm "Treelayoutgroupa".

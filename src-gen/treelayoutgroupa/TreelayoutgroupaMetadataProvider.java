@@ -23,6 +23,20 @@ public class TreelayoutgroupaMetadataProvider implements ILayoutMetaDataProvider
             null,
             null);
 
+  /**
+   * Default value for {@link #USED_STRATEGY}.
+   */
+  private static final AlgorithmTypes USED_STRATEGY_DEFAULT = AlgorithmTypes.LEFTY;
+
+  /**
+   * The currently used strategy. Take a look at the enum for more information.
+   */
+  public static final IProperty<AlgorithmTypes> USED_STRATEGY = new Property<AlgorithmTypes>(
+            "treelayoutgroupa.usedStrategy",
+            USED_STRATEGY_DEFAULT,
+            null,
+            null);
+
   public void apply(final org.eclipse.elk.core.data.ILayoutMetaDataProvider.Registry registry) {
     registry.register(new LayoutOptionData.Builder()
         .id("treelayoutgroupa.reverseInput")
@@ -32,6 +46,18 @@ public class TreelayoutgroupaMetadataProvider implements ILayoutMetaDataProvider
         .defaultValue(REVERSE_INPUT_DEFAULT)
         .type(LayoutOptionData.Type.BOOLEAN)
         .optionClass(Boolean.class)
+        .targets(EnumSet.of(LayoutOptionData.Target.PARENTS))
+        .visibility(LayoutOptionData.Visibility.VISIBLE)
+        .create()
+    );
+    registry.register(new LayoutOptionData.Builder()
+        .id("treelayoutgroupa.usedStrategy")
+        .group("")
+        .name("Used strategy")
+        .description("The currently used strategy. Take a look at the enum for more information.")
+        .defaultValue(USED_STRATEGY_DEFAULT)
+        .type(LayoutOptionData.Type.ENUM)
+        .optionClass(AlgorithmTypes.class)
         .targets(EnumSet.of(LayoutOptionData.Target.PARENTS))
         .visibility(LayoutOptionData.Visibility.VISIBLE)
         .create()

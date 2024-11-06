@@ -55,17 +55,12 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         //nodePlacingMonitor.log("currX: " + currX);
         nodePlacingMonitor.logGraph(layoutGraph, "No node placed yet");
         
-        /**
-         * Contains the algorithm which shall be used.
-         * Set the wanted algorithm here!
-         */
-        AlgorithmTypes currentAlgorithm = AlgorithmTypes.LEFTY;
         
         // Calculating the level of each node and the max height.
         calculateLevels(layoutGraph, nodes);
         
         // Checks, which algorithm is selected and uses that one.
-        switch(currentAlgorithm) {
+        switch(layoutGraph.getProperty(TreelayoutgroupaOptions.USED_STRATEGY)) {
             case LEFTY:
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
                 Lefty leftyInstance = new Lefty();
