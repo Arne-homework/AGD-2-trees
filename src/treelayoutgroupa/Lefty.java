@@ -18,6 +18,7 @@ public class Lefty {
 
     /**
      * The actual Lefty implementation.
+     * Based on Algorithm 1 in [Wetherell, Shannon 1979]
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
