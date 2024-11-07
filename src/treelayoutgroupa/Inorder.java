@@ -40,8 +40,6 @@ public class Inorder {
         // Retrieving the padding to reduce the number of necessary arguments.
         ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
         double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
-        // Also retrieving the max height of the given tree.
-        int maxHeight = layoutGraph.getProperty(InternalProperties.MAX_HEIGHT);
         
         // Declare and initialize necessary variables for the algorithm.
         // The next x-coordinate.
@@ -68,6 +66,7 @@ public class Inorder {
                 }
             }
             
+            // TODO: Problem: The right child does not get stored in the map!
             // Check, which status the current node is in.
             switch (status.get(current)) {
             
@@ -154,6 +153,7 @@ public class Inorder {
      // But first let's visit our (remaining) children.
         if (!childrenList.isEmpty()) {
            for (ElkNode child : childrenList) {
+               // TODO: Not all children are visited!
                if (!status.containsKey(child)) {
                    // This child has not been visited yet.
                    status.put(current, Status.FIRST_VISIT);

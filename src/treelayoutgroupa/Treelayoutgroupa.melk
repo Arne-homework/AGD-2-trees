@@ -21,7 +21,7 @@ option usedStrategy : AlgorithmTypes {
     label "Used strategy"
     description
         "The currently used strategy. Take a look at the enum for more information."
-    default = AlgorithmTypes.LEFTY
+    default = AlgorithmTypes.INORDER
     targets parents
 }
 

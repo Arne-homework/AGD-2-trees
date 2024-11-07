@@ -26,7 +26,7 @@ public class TreelayoutgroupaMetadataProvider implements ILayoutMetaDataProvider
   /**
    * Default value for {@link #USED_STRATEGY}.
    */
-  private static final AlgorithmTypes USED_STRATEGY_DEFAULT = AlgorithmTypes.LEFTY;
+  private static final AlgorithmTypes USED_STRATEGY_DEFAULT = AlgorithmTypes.INORDER;
 
   /**
    * The currently used strategy. Take a look at the enum for more information.
