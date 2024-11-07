@@ -56,7 +56,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         
         
         // Calculating the level of each node and the max height.
-        calculateLevels(layoutGraph, nodes);
+        calculateLevelsBfs(layoutGraph, nodes);
         
         // Checks, which algorithm is selected and uses that one.
         switch(layoutGraph.getProperty(TreelayoutgroupaOptions.USED_STRATEGY)) {
@@ -125,10 +125,12 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
     
     /**
      * Calculate the node levels and max height.
+     * @deprecated Use calculateLevelsBfs() instead. But there is still a problem in the new method!
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
      */
+    @Deprecated
     private void calculateLevels(ElkNode layoutGraph, List<ElkNode> nodes) {
         // The maximal height.
         int maxLevel = 0;
@@ -136,6 +138,69 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         // Let's use a BFS to calculate the height of every node.
         // Nodes is already some kind of sorted queue (adjacent list). We just need to visit every node once.
         for (ElkNode node : nodes) {
+            // Get the parent node. If there is none, our node is the root.
+            EList<ElkEdge> incommingEdges = node.getIncomingEdges();
+            if (!incommingEdges.isEmpty()) {
+                // node is an internal node or leaf.
+                // Let's get the parent node and set our level to one above.
+                ElkEdge incommingEdge = incommingEdges.get(0);
+                ElkNode parent = ElkGraphUtil.connectableShapeToNode(incommingEdge.getSources().get(0));
+                int newLevel = parent.getProperty(InternalProperties.NODE_LEVEL) + 1;
+                node.setProperty(InternalProperties.NODE_LEVEL, newLevel);
+                
+                // Are we on a new level?
+                if (newLevel > maxLevel) {
+                    maxLevel = newLevel;
+                }
+            }
+            // Else: node == root
+        }
+        // At the end let's set the MAX_HEIGHT.
+        layoutGraph.setProperty(InternalProperties.MAX_HEIGHT, maxLevel);
+    }
+    
+    /**
+     * Calculate the node levels and max height.
+     * TODO: There is still a problem here!
+     * 
+     * @param layoutGraph The current graph.
+     * @param nodes A list of all nodes in the graph.
+     */
+    private void calculateLevelsBfs(ElkNode layoutGraph, List<ElkNode> nodes) {
+        // The maximal height.
+        int maxLevel = 0;
+        
+        // Firstly, we need to find the root (= The node with din=0). There should only be one.
+        ElkNode root = nodes.get(0);
+        for (ElkNode node : nodes) {
+            if (node.getIncomingEdges().isEmpty()) {
+                root = node;
+                break;
+            }
+        }
+        
+        // Let's use a BFS to calculate the height of every node.
+        // Therefore we need a queue and put the root in it.
+        Queue<ElkNode> queue = new LinkedList<>();
+        queue.add(root);
+        
+        // Visit each node in the queue and add their children.
+        // A for-loop does not support iterating over a dynamic datastructure.
+        while (!queue.isEmpty()) {
+            // This removes the first node and returns it
+            ElkNode node = queue.poll();
+            // We need all outgoing edges to get the children.
+            EList<ElkEdge> outgoingEdges = node.getOutgoingEdges();
+            // Check, whether there are children.
+            if (!outgoingEdges.isEmpty()) {
+                for (ElkEdge elkEdge : outgoingEdges) {
+                    // (current -> child) => The child is the target of the outgoing edge. We only have 2-uniform hypergraph (each edge connects exactly 2 nodes)
+                    ElkNode child = ElkGraphUtil.connectableShapeToNode(elkEdge.getTargets().get(0));
+                    queue.add(child);
+                }
+            }
+            
+            // Now let's set the current nodes level to the parent level +1.
             // Get the parent node. If there is none, our node is the root.
             EList<ElkEdge> incommingEdges = node.getIncomingEdges();
             if (!incommingEdges.isEmpty()) {
