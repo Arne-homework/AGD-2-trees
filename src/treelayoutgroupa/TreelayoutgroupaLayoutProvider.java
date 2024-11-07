@@ -64,10 +64,17 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
                 Lefty leftyInstance = new Lefty();
                 leftyInstance.lefty(layoutGraph, nodes, root, nodePlacingMonitor);
+                break;
                 
             case INORDER:
-                // TODO: Do something here!
-        
+                nodePlacingMonitor.logGraph(layoutGraph, "Starting In-order algorithm.");
+                Inorder inorderInstance = new Inorder();
+                inorderInstance.inorder(layoutGraph, nodes, root, nodePlacingMonitor);
+                break;
+                
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + layoutGraph.getProperty(TreelayoutgroupaOptions.USED_STRATEGY));
+                
         }
 
         // Close the sub monitor
