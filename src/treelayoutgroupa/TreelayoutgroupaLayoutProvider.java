@@ -125,7 +125,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
     
     /**
      * Calculate the node levels and max height.
-     * @deprecated Use calculateLevelsBfs() instead. But there is still a problem in the new method!
+     * @deprecated Use calculateLevelsBfs() instead.
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
@@ -161,7 +161,6 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
     
     /**
      * Calculate the node levels and max height.
-     * TODO: There is still a problem here!
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
