@@ -56,14 +56,14 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         
         
         // Calculating the level of each node and the max height.
-        calculateLevelsBfs(layoutGraph, nodes);
+        ElkNode root = calculateLevelsBfs(layoutGraph, nodes);
         
         // Checks, which algorithm is selected and uses that one.
         switch(layoutGraph.getProperty(TreelayoutgroupaOptions.USED_STRATEGY)) {
             case LEFTY:
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
                 Lefty leftyInstance = new Lefty();
-                leftyInstance.lefty(layoutGraph, nodes, nodePlacingMonitor);
+                leftyInstance.lefty(layoutGraph, nodes, root, nodePlacingMonitor);
                 
             case INORDER:
                 // TODO: Do something here!
@@ -164,8 +164,9 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
+     * @return The root node of the given graph.
      */
-    private void calculateLevelsBfs(ElkNode layoutGraph, List<ElkNode> nodes) {
+    private ElkNode calculateLevelsBfs(ElkNode layoutGraph, List<ElkNode> nodes) {
         // The maximal height.
         int maxLevel = 0;
         
@@ -174,6 +175,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         for (ElkNode node : nodes) {
             if (node.getIncomingEdges().isEmpty()) {
                 root = node;
+                node.setProperty(InternalProperties.IS_ROOT, true);
                 break;
             }
         }
@@ -219,5 +221,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         }
         // At the end let's set the MAX_HEIGHT.
         layoutGraph.setProperty(InternalProperties.MAX_HEIGHT, maxLevel);
+        // And return the root node.
+        return root;
     }
 }

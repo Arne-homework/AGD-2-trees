@@ -23,4 +23,13 @@ public class InternalProperties {
             0, // Lower bound
             null); // Upper bound
     
+    /**
+     * Flag, whether the current node is the root node or not.
+     * True, if node == root. False, otherwise.
+     */
+    public static final IProperty<Boolean> IS_ROOT = new Property<Boolean>("isRoot",
+            false,
+            null,
+            null);
+    
 }

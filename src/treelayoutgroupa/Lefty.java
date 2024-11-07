@@ -21,10 +21,11 @@ public class Lefty {
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
+     * @param root The root node of the given graph.
      * @param nodePlacingMonitor A monitor for placing the nodes.
      * @param nodeNodeSpacing The spacing between nodes.
      */
-    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor) {
+    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, ElkNode root, IElkProgressMonitor nodePlacingMonitor) {
         // Retrieving the padding to reduce the number of necessary arguments.
         ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
         double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
@@ -36,7 +37,7 @@ public class Lefty {
         // Array containing the next possible positions on the x-coordinate.
         int[] nextX = new int[maxHeight+1];
         // The current node, we want to start with the root.
-        ElkNode current = nodes.get(0);
+        ElkNode current = root;
         // Map containing the (visited) status of each node.
         HashMap<ElkNode, Integer> status = new HashMap<ElkNode, Integer>();
         
