@@ -4,10 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.text.AsyncBoxView.ChildLocator;
-
 import org.eclipse.elk.core.math.ElkPadding;
-import org.eclipse.elk.core.options.CoreOptions;
 import org.eclipse.elk.core.util.IElkProgressMonitor;
 import org.eclipse.elk.graph.ElkEdge;
 import org.eclipse.elk.graph.ElkNode;
@@ -27,9 +24,10 @@ public class Lefty {
      * @param nodePlacingMonitor A monitor for placing the nodes.
      * @param nodeNodeSpacing The spacing between nodes.
      */
-    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor, double nodeNodeSpacing) {
+    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor) {
         // Retrieving the padding to reduce the number of necessary arguments.
         ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
+        double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
         // Also retrieving the max height of the given tree.
         int maxHeight = layoutGraph.getProperty(InternalProperties.MAX_HEIGHT);
         
