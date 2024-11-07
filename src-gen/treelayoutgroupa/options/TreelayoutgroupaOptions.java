@@ -7,7 +7,6 @@ import org.eclipse.elk.core.math.ElkPadding;
 import org.eclipse.elk.core.options.CoreOptions;
 import org.eclipse.elk.graph.properties.IProperty;
 import org.eclipse.elk.graph.properties.Property;
-
 import treelayoutgroupa.AlgorithmTypes;
 import treelayoutgroupa.TreelayoutgroupaLayoutProvider;
 import treelayoutgroupa.TreelayoutgroupaMetadataProvider;
@@ -24,7 +23,7 @@ public class TreelayoutgroupaOptions implements ILayoutMetaDataProvider {
    * appearance in the graph.
    */
   public static final IProperty<Boolean> REVERSE_INPUT = TreelayoutgroupaMetadataProvider.REVERSE_INPUT;
-  
+
   /**
    * The currently used strategy. Take a look at the enum for more information.
    */
@@ -100,7 +99,7 @@ public class TreelayoutgroupaOptions implements ILayoutMetaDataProvider {
     registry.register(new LayoutAlgorithmData.Builder()
         .id("treelayoutgroupa.Treelayoutgroupa")
         .name("Treelayoutgroupa")
-        .description("Please insert a short but informative description here")
+        .description("The implementation of Lefty and Inorder from group A.")
         .providerFactory(new TreelayoutgroupaFactory())
         .melkBundleName(null)
         .definingBundleId("treelayoutgroupa")
@@ -110,6 +109,11 @@ public class TreelayoutgroupaOptions implements ILayoutMetaDataProvider {
         "treelayoutgroupa.Treelayoutgroupa",
         "treelayoutgroupa.reverseInput",
         REVERSE_INPUT.getDefault()
+    );
+    registry.addOptionSupport(
+        "treelayoutgroupa.Treelayoutgroupa",
+        "treelayoutgroupa.usedStrategy",
+        USED_STRATEGY.getDefault()
     );
     registry.addOptionSupport(
         "treelayoutgroupa.Treelayoutgroupa",

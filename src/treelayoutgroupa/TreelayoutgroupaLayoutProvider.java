@@ -35,7 +35,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
         
         double edgeEdgeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_EDGE);
         double edgeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_EDGE_NODE);
-        //double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
+        double nodeNodeSpacing = layoutGraph.getProperty(TreelayoutgroupaOptions.SPACING_NODE_NODE);
         
         // Get and possibly reverse the list of nodes to lay out
         List<ElkNode> nodes = new ArrayList<>(layoutGraph.getChildren());
@@ -64,7 +64,7 @@ public class TreelayoutgroupaLayoutProvider extends AbstractLayoutProvider {
             case LEFTY:
                 nodePlacingMonitor.logGraph(layoutGraph, "Starting Lefty algorithm.");
                 Lefty leftyInstance = new Lefty();
-                leftyInstance.lefty(layoutGraph, nodes, nodePlacingMonitor);
+                leftyInstance.lefty(layoutGraph, nodes, nodePlacingMonitor, nodeNodeSpacing);
                 
             case INORDER:
                 // TODO: Do something here!

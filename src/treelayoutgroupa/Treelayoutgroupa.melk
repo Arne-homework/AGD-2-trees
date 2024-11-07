@@ -27,9 +27,10 @@ option usedStrategy : AlgorithmTypes {
 
 algorithm Treelayoutgroupa(TreelayoutgroupaLayoutProvider) {
     label "Treelayoutgroupa"
-    description "Please insert a short but informative description here"
+    description "The implementation of Lefty and Inorder from group A."
     metadataClass options.TreelayoutgroupaOptions
     supports reverseInput
+    supports usedStrategy
     supports org.eclipse.elk.padding = new ElkPadding(10)
     supports org.eclipse.elk.spacing.edgeEdge = 5
     supports org.eclipse.elk.spacing.edgeNode = 10

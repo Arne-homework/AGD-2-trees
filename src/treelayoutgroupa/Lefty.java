@@ -25,8 +25,9 @@ public class Lefty {
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
      * @param nodePlacingMonitor A monitor for placing the nodes.
+     * @param nodeNodeSpacing The spacing between nodes.
      */
-    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor) {
+    public void lefty(ElkNode layoutGraph, List<ElkNode> nodes, IElkProgressMonitor nodePlacingMonitor, double nodeNodeSpacing) {
         // Retrieving the padding to reduce the number of necessary arguments.
         ElkPadding padding = layoutGraph.getProperty(TreelayoutgroupaOptions.PADDING);
         // Also retrieving the max height of the given tree.
@@ -61,7 +62,7 @@ public class Lefty {
                 // Use a multiple of the nodes height as y position.
                 current.setY(currentLevel * (padding.top + current.getHeight()));
                 // Adjust the next possible x position accordingly to the algorithm rules.
-                nextX[currentLevel] += current.getWidth() +2;
+                nextX[currentLevel] += current.getWidth() + nodeNodeSpacing;
                 
                 // Mark the current node as visited.
                 status.put(current, 1);
