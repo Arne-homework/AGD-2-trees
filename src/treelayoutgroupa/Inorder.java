@@ -91,12 +91,9 @@ public class Inorder {
                     
                     status.put(current, Status.REMAINING_CHILD_VISIT);
                     
-                } else if (childrenList.size() > 0 &&
-                        ((childrenList.size()%2 == 0 && numberRemainingChildren == 1) ||
-                        (childrenList.size()%2 != 0 && numberRemainingChildren == 0))) {
+                } else if (childrenList.size() > 1 && numberRemainingChildren == 0) {
                     // This case will happen, if a root has already been set, but there are still children left.
-                    // In case of an even children list: We have still one child left.
-                    // In case of odd, we don't.
+                    // This can only happen, if the root had > 1 children in the beginning.
                     // All children have been visited.
                     // The next time visit the node right of us, even if that one is a layer above us.
                     status.put(current, Status.RIGHT_VISIT);
