@@ -86,8 +86,21 @@ public class Inorder {
                 // Therefore, we need to check how many children still need to be visited. => Those have not been registered in the status map yet.
                 int numberRemainingChildren = (int) childrenList.stream().filter(child -> !status.containsKey(child)).count();
                 
-                if (numberRemainingChildren > 0 && numberRemainingChildren > childrenList.size() / 2) {
+                if (numberRemainingChildren > 0 &&
+                        (numberRemainingChildren > childrenList.size() / 2)) {
+                    
                     status.put(current, Status.REMAINING_CHILD_VISIT);
+                    
+                } else if (childrenList.size() > 0 &&
+                        ((childrenList.size()%2 == 0 && numberRemainingChildren == 1) ||
+                        (childrenList.size()%2 != 0 && numberRemainingChildren == 0))) {
+                    // This case will happen, if a root has already been set, but there are still children left.
+                    // In case of an even children list: We have still one child left.
+                    // In case of odd, we don't.
+                    // All children have been visited.
+                    // The next time visit the node right of us, even if that one is a layer above us.
+                    status.put(current, Status.RIGHT_VISIT);
+                    
                 } else {
                     // Setting the node at (x,y) and adjust the coordinates.
                     // Therefore, get the height of the current node.
@@ -100,6 +113,7 @@ public class Inorder {
                     current.setY(currentLevel * (padding.top + current.getHeight()));
                 
                     if (numberRemainingChildren == 0) {
+                        // This case happens for a leaf.
                         // All children have been visited.
                         // The next time visit the node right of us, even if that one is a layer above us.
                         status.put(current, Status.RIGHT_VISIT);
