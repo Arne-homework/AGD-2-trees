@@ -29,6 +29,7 @@ public class Inorder {
     /**
      * The actual Inorder implementation.
      * Based on Algorithm 2 in [Wetherell, Shannon 1979]
+     * Adjusted to work with a rose tree and multiple layer. (At least attempting to...)
      * 
      * @param layoutGraph The current graph.
      * @param nodes A list of all nodes in the graph.
@@ -81,22 +82,31 @@ public class Inorder {
                 break;
                 
             case LEFT_VISIT:
-                // Setting the node at (x,y) and adjust the coordinates.
-                // Therefore, get the height of the current node.
-                int currentLevel = current.getProperty(InternalProperties.NODE_LEVEL);
-                nodePlacingMonitor.log("currX: " + next_number);
+                // The root will only be visited after children/2!
+                // Therefore, we need to check how many children still need to be visited. => Those have not been registered in the status map yet.
+                int numberRemainingChildren = (int) childrenList.stream().filter(child -> !status.containsKey(child)).count();
                 
-                current.setX(next_number);
-                next_number += 2.5*nodeNodeSpacing;
-                // Use a multiple of the nodes height as y position.
-                current.setY(currentLevel * (padding.top + current.getHeight()));
-                
-                // Check, if there are >2 children! The root will only be visited after children/2!
-                if (childrenList.size() > 2) {
+                if (numberRemainingChildren > 0 && numberRemainingChildren > childrenList.size() / 2) {
                     status.put(current, Status.REMAINING_CHILD_VISIT);
                 } else {
-                    // The next time visit the node right of us, even if that one is a layer above us.
-                    status.put(current, Status.RIGHT_VISIT);
+                    // Setting the node at (x,y) and adjust the coordinates.
+                    // Therefore, get the height of the current node.
+                    int currentLevel = current.getProperty(InternalProperties.NODE_LEVEL);
+                    nodePlacingMonitor.log("currX: " + next_number);
+                
+                    current.setX(next_number);
+                    next_number += 2.5*nodeNodeSpacing;
+                    // Use a multiple of the nodes height as y position.
+                    current.setY(currentLevel * (padding.top + current.getHeight()));
+                
+                    if (numberRemainingChildren == 0) {
+                        // All children have been visited.
+                        // The next time visit the node right of us, even if that one is a layer above us.
+                        status.put(current, Status.RIGHT_VISIT);
+                    } else {
+                        // We need to still visit multiple children.
+                        status.put(current, Status.REMAINING_CHILD_VISIT);
+                    }
                 }
                 
                 // But first let's visit our (remaining) children.
@@ -114,14 +124,24 @@ public class Inorder {
                 
             case REMAINING_CHILD_VISIT:
                 // TODO: This state is different. Check, whether it is actually working!
-                // Let's visit our (remaining) children.
-                ElkNode remainingChild = visitRemainingChild(current, childrenList, status);
-                // Check, whether there is actually a child left.
-                if (remainingChild != null) {
-                    current = remainingChild;
-                } else {
+                // How many children are actually left?
+                numberRemainingChildren = (int) childrenList.stream().filter(child -> !status.containsKey(child)).count();
+                
+                if (numberRemainingChildren == 0) {
                     // We've visited all children.
                     status.put(current, Status.RIGHT_VISIT);
+                    
+                } else if (numberRemainingChildren > childrenList.size() / 2) {
+                    // numberRemainingChildren > 0
+                    // Let's visit our (remaining) children.
+                    ElkNode remainingChild = visitRemainingChild(current, childrenList, status);
+                    // Check, whether there is actually a child left.
+                    current = remainingChild;
+                    
+                } else {
+                    // numberRemainingChildren <= childrenList.size() / 2)
+                    // We need to visit us first.
+                    status.put(current, Status.LEFT_VISIT);
                 }
                 break;
                 
