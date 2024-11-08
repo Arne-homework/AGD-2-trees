@@ -87,7 +87,7 @@ public class Inorder {
                 int numberRemainingChildren = (int) childrenList.stream().filter(child -> !status.containsKey(child)).count();
                 
                 if (numberRemainingChildren > 0 &&
-                        (numberRemainingChildren > childrenList.size() / 2)) {
+                        (numberRemainingChildren < childrenList.size() / 2)) {
                     
                     status.put(current, Status.REMAINING_CHILD_VISIT);
                     
