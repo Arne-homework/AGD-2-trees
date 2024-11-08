@@ -66,7 +66,6 @@ public class Inorder {
                 }
             }
             
-            // TODO: Problem: The right child does not get stored in the map!
             // Check, which status the current node is in.
             switch (status.get(current)) {
             
@@ -153,10 +152,9 @@ public class Inorder {
      // But first let's visit our (remaining) children.
         if (!childrenList.isEmpty()) {
            for (ElkNode child : childrenList) {
-               // TODO: Not all children are visited!
                if (!status.containsKey(child)) {
                    // This child has not been visited yet.
-                   status.put(current, Status.FIRST_VISIT);
+                   status.put(child, Status.FIRST_VISIT);
                    return child;
                }
            } 
