@@ -1,7 +1,9 @@
 package treelayoutgroupa;
 
+import org.eclipse.elk.graph.ElkNode;
 import org.eclipse.elk.graph.properties.IProperty;
 import org.eclipse.elk.graph.properties.Property;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Custom internal properties.
@@ -32,4 +34,12 @@ public class InternalProperties {
             null,
             null);
     
+    /**
+     * List of the children nodes. Null per default.
+     */
+    public static final IProperty<EList<ElkNode>> CHILDREN_LIST = new Property<EList<ElkNode>>("childrenList",
+            null,
+            null,
+            null
+            );
 }

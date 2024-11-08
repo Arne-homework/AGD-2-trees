@@ -56,17 +56,24 @@ public class Inorder {
         while (current != null) {
             // Let's get the children from left to right.
             EList<ElkEdge> outgoingEdges = current.getOutgoingEdges();
-            EList<ElkNode> childrenList = new BasicEList<>();
             
-            if (outgoingEdges.size()>0) {
-                // There is at least one child!
-                for (ElkEdge elkEdge : outgoingEdges) {
-                    // (current -> child) => The child is the target of the outgoing edge. We only have 2-uniform hypergraph (each edge connects exactly 2 nodes)
-                    ElkNode child = ElkGraphUtil.connectableShapeToNode(elkEdge.getTargets().get(0));
-                    childrenList.add(child);
+            // We only need to retrieve the children the first time.
+            // This reduces the run time.
+            EList<ElkNode> childrenList = current.getProperty(InternalProperties.CHILDREN_LIST);
+            
+            if (childrenList == null) {
+                childrenList = new BasicEList<ElkNode>();
+            
+                if (outgoingEdges.size()>0) {
+                    // There is at least one child!
+                    for (ElkEdge elkEdge : outgoingEdges) {
+                        // (current -> child) => The child is the target of the outgoing edge. We only have 2-uniform hypergraph (each edge connects exactly 2 nodes)
+                        ElkNode child = ElkGraphUtil.connectableShapeToNode(elkEdge.getTargets().get(0));
+                        childrenList.add(child);
+                    }
                 }
+                current.setProperty(InternalProperties.CHILDREN_LIST, childrenList);
             }
-            
             // Check, which status the current node is in.
             switch (status.get(current)) {
             
