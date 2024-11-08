@@ -119,6 +119,9 @@ public class Inorder {
                 // Check, whether there is actually a child left.
                 if (remainingChild != null) {
                     current = remainingChild;
+                } else {
+                    // We've visited all children.
+                    status.put(current, Status.RIGHT_VISIT);
                 }
                 break;
                 
