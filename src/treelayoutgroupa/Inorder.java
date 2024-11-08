@@ -101,7 +101,14 @@ public class Inorder {
                 
                 // But first let's visit our (remaining) children.
                 if (!childrenList.isEmpty()) {
-                    current = visitRemainingChild(current, childrenList, status);
+                    // If there are no remaining children, we need to stay on this current node!
+                    // Otherwise, we move on.
+                    ElkNode remainingChild = visitRemainingChild(current, childrenList, status);
+                    
+                    if (remainingChild != null) {
+                        // Let's move on.
+                        current = remainingChild;
+                    }
                 }
                 break;
                 
