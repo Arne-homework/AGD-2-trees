@@ -74,6 +74,7 @@ public class Inorder {
                 }
                 current.setProperty(InternalProperties.CHILDREN_LIST, childrenList);
             }
+            
             // Check, which status the current node is in.
             switch (status.get(current)) {
             
@@ -141,7 +142,7 @@ public class Inorder {
                 break;
                 
             case REMAINING_CHILD_VISIT:
-                // TODO: This state is different. Check, whether it is actually working!
+                // This state is different.
                 // How many children are actually left?
                 numberRemainingChildren = (int) childrenList.stream().filter(child -> !status.containsKey(child)).count();
                 
