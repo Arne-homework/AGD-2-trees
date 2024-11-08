@@ -108,7 +108,7 @@ public class Inorder {
                     nodePlacingMonitor.log("currX: " + next_number);
                 
                     current.setX(next_number);
-                    next_number += 2.5*nodeNodeSpacing;
+                    next_number += current.getWidth() + nodeNodeSpacing;
                     // Use a multiple of the nodes height as y position.
                     current.setY(currentLevel * (padding.top + current.getHeight()));
                 
