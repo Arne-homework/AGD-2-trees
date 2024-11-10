@@ -1,0 +1,166 @@
+// asdf
+algorithm:  Treelayoutgroupa
+usedStrategy: INORDER
+
+node n1 { label "html"}
+node n2 { label "head"}
+node n3 { label "meta"}
+node n4 { label "meta"}
+node n5 { label "title"}
+node n6 { label "script"}
+node n7 { label "style"}
+node n8 { label "style"}
+node n9 { label "script"}
+node n10 { label "body"}
+node n11 { label "script"}
+node n12 { label "div"}
+node n13 { label "div"}
+node n14 { label "nobr"}
+node n15 { label "b"}
+node n16 { label "a"}
+node n17 { label "a"}
+node n18 { label "a"}
+node n19 { label "a"}
+node n20 { label "a"}
+node n21 { label "a"}
+node n22 { label "a"}
+node n23 { label "a"}
+node n24 { label "u"}
+node n25 { label "div"}
+node n26 { label "nobr"}
+node n27 { label "span"}
+node n28 { label "span"}
+node n29 { label "span"}
+node n30 { label "a"}
+node n31 { label "a"}
+node n32 { label "a"}
+node n33 { label "div"}
+node n34 { label "div"}
+node n35 { label "center"}
+node n36 { label "br"}
+node n37 { label "div"}
+node n38 { label "img"}
+node n39 { label "br"}
+node n40 { label "br"}
+node n41 { label "form"}
+node n42 { label "table"}
+node n43 { label "tr"}
+node n44 { label "td"}
+node n45 { label "td"}
+node n46 { label "input"}
+node n47 { label "input"}
+node n48 { label "input"}
+node n49 { label "input"}
+node n50 { label "input"}
+node n51 { label "div"}
+node n52 { label "input"}
+node n53 { label "br"}
+node n54 { label "span"}
+node n55 { label "span"}
+node n56 { label "input"}
+node n57 { label "span"}
+node n58 { label "span"}
+node n59 { label "input"}
+node n60 { label "script"}
+node n61 { label "input"}
+node n62 { label "td"}
+node n63 { label "a"}
+node n64 { label "input"}
+node n65 { label "script"}
+node n66 { label "div"}
+node n67 { label "br"}
+node n68 { label "span"}
+node n69 { label "div"}
+node n70 { label "div"}
+node n71 { label "a"}
+node n72 { label "a"}
+node n73 { label "a"}
+node n74 { label "a"}
+node n75 { label "p"}
+node n76 { label "a"}
+node n77 { label "a"}
+node n78 { label "script"}
+node n79 { label "script"}
+node n80 { label "script"}
+
+
+
+edge n1 -> n2
+edge n2 -> n3
+edge n2 -> n4
+edge n2 -> n5
+edge n2 -> n6
+edge n2 -> n7
+edge n2 -> n8
+edge n2 -> n9
+edge n1 -> n10
+edge n10 -> n11
+edge n10 -> n12
+edge n12 -> n13
+edge n13 -> n14
+edge n14 -> n15
+edge n14 -> n16
+edge n14 -> n17
+edge n14 -> n18
+edge n14 -> n19
+edge n14 -> n20
+edge n14 -> n21
+edge n14 -> n22
+edge n14 -> n23
+edge n23 -> n24
+edge n12 -> n25
+edge n25 -> n26
+edge n26 -> n27
+edge n26 -> n28
+edge n26 -> n29
+edge n26 -> n30
+edge n26 -> n31
+edge n26 -> n32
+edge n12 -> n33
+edge n12 -> n34
+edge n10 -> n35
+edge n35 -> n36
+edge n35 -> n37
+edge n37 -> n38
+edge n37 -> n39
+edge n37 -> n40
+edge n35 -> n41
+edge n41 -> n42
+edge n42 -> n43
+edge n43 -> n44
+edge n43 -> n45
+edge n45 -> n46
+edge n45 -> n47
+edge n45 -> n48
+edge n45 -> n49
+edge n45 -> n50
+edge n45 -> n51
+edge n51 -> n52
+edge n45 -> n53
+edge n45 -> n54
+edge n54 -> n55
+edge n55 -> n56
+edge n45 -> n57
+edge n57 -> n58
+edge n58 -> n59
+edge n58 -> n60
+edge n58 -> n61
+edge n43 -> n62
+edge n62 -> n63
+edge n41 -> n64
+edge n41 -> n65
+edge n35 -> n66
+edge n66 -> n67
+edge n35 -> n68
+edge n68 -> n69
+edge n69 -> n70
+edge n70 -> n71
+edge n70 -> n72
+edge n70 -> n73
+edge n70 -> n74
+edge n68 -> n75
+edge n75 -> n76
+edge n75 -> n77
+edge n10 -> n78
+edge n10 -> n79
+edge n10 -> n80
